@@ -5,23 +5,27 @@ export const ProductList = () => {
 
     useEffect(
         () => {
-            return fetch("http://localhost:8088/products")
+            fetch("http://localhost:8088/products?_expand=productType")
             .then(res => res.json())
-            .then(setProducts())
+            .then((data) => {
+                setProducts(data)
+            })
         }, []
     )
 
     return (
         <>
-            <div className="constainer__productList">
-                <h2>Product List</h2>
+            <div className="container__productList">
+                <h3>Product List</h3>
                 {
                     products.map((product) => {
-                        return <p key = {`product--${product.id}`}>
-                                <div>{product.name}</div>
-                                <div>{product.price}</div>
-                                <div>{product.productTypeId}</div>
-                        </p>
+                        return (
+                            <div key = {`product--${product.id}`}>
+                                <p>Product: {product.name}</p>
+                                <p>Price: ${product.price}</p>
+                                <p>Type: {product.productType.type}</p>
+                            </div>
+                        )
                     })
                 }
             </div>
